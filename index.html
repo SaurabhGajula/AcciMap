@@ -1,35 +1,111 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-{
-0:{'name':'Start',color:'green'}, 
-1:{'name':'Read A,B,C',color:'yellow'}, 
-2:{'name':'Is B>C?',color:'green'},
-3:{'name':'Is A>B?',color:'green'},
-4:{'name':'Is A>C?',color:'green'},
-5:{'name':'Print B',color:'green'},
-6:{'name':'Print C',color:'green'},
-7:{'name':'Print C',color:'green'},
-8:{'name':'Print A',color:'green'},
-9:{'name':'End',color:'red'}
+<style>
+
+body {
+  background: #000;
 }
 
-[
-{from:'0', to:'1', label:''}, 
-{from:'1', to:'3', label:''}, 
-{from:'3', to:'2', label:'No'}, 
-{from:'3', to:'4', label:'Yes'},
-{from:'2', to:'5', label:'Yes'},
-{from:'2', to:'6', label:'No'},
-{from:'4', to:'7', label:'No'},
-{from:'4', to:'8', label:'Yes'},
-{from:'5', to:'9', label:''},
-{from:'6', to:'9', label:''},
-{from:'7', to:'9', label:''},
-{from:'8', to:'9', label:''}
-]
-<rect fill='{Binding color}' stroke='LightBlue' stroke-width='2' 
-    width='{TemplateBinding width}' 
-    height='{TemplateBinding height}'></rect>
-<text transform='translate(10 20)' data-content='{Binding name}'   
-    style='font-size:18px; font-family:Arial; fill:#000; text-anchor: left;
-    dominant-baseline: central;'></text>
+ellipse {
+  fill: #fff;
+}
+
+path {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+}
+
+.mid {
+  stroke-width: 4px;
+}
+
+.tail {
+  stroke-width: 2px;
+}
+
+</style>
+<body>
+<script src="./d3.v3.min.js"></script>
+<script>
+
+var width = 960,
+    height = 500;
+
+var n = 100,
+    m = 12,
+    degrees = 180 / Math.PI;
+
+var spermatozoa = d3.range(n).map(function() {
+  var x = Math.random() * width,
+      y = Math.random() * height;
+  return {
+    vx: Math.random() * 2 - 1,
+    vy: Math.random() * 2 - 1,
+    path: d3.range(m).map(function() { return [x, y]; }),
+    count: 0
+  };
+});
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var g = svg.selectAll("g")
+    .data(spermatozoa)
+  .enter().append("g");
+
+var head = g.append("ellipse")
+    .attr("rx", 6.5)
+    .attr("ry", 4);
+
+g.append("path")
+    .datum(function(d) { return d.path.slice(0, 3); })
+    .attr("class", "mid");
+
+g.append("path")
+    .datum(function(d) { return d.path; })
+    .attr("class", "tail");
+
+var tail = g.selectAll("path");
+
+d3.timer(function() {
+  for (var i = -1; ++i < n;) {
+    var spermatozoon = spermatozoa[i],
+        path = spermatozoon.path,
+        dx = spermatozoon.vx,
+        dy = spermatozoon.vy,
+        x = path[0][0] += dx,
+        y = path[0][1] += dy,
+        speed = Math.sqrt(dx * dx + dy * dy),
+        count = speed * 10,
+        k1 = -5 - speed / 3;
+
+    // Bounce off the walls.
+    if (x < 0 || x > width) spermatozoon.vx *= -1;
+    if (y < 0 || y > height) spermatozoon.vy *= -1;
+
+    // Swim!
+    for (var j = 0; ++j < m;) {
+      var vx = x - path[j][0],
+          vy = y - path[j][1],
+          k2 = Math.sin(((spermatozoon.count += count) + j * 3) / 300) / speed;
+      path[j][0] = (x += dx / speed * k1) - dy * k2;
+      path[j][1] = (y += dy / speed * k1) + dx * k2;
+      speed = Math.sqrt((dx = vx) * dx + (dy = vy) * dy);
+    }
+  }
+
+  head.attr("transform", headTransform);
+  tail.attr("d", tailPath);
+});
+
+function headTransform(d) {
+  return "translate(" + d.path[0] + ")rotate(" + Math.atan2(d.vy, d.vx) * degrees + ")";
+}
+
+function tailPath(d) {
+  return "M" + d.join("L");
+}
+
+</script>
