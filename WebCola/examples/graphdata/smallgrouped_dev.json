@@ -1,0 +1,54 @@
+﻿{
+    "nodes":[
+      {"name":"a","width":60,"height":40},
+      {"name":"b","width":60,"height":40},
+      {"name":"c","width":60,"height":40},
+      {"name":"d","width":60,"height":40},
+      {"name":"e","width":60,"height":40},
+      {"name":"f","width":60,"height":40},
+      {"name":"g","width":60,"height":40},
+      {"name":"h","width":60,"height":40},
+      {"name":"i","width":60,"height":40},
+      {"name":"j","width":60,"height":40},
+      {"name":"k","width":60,"height":40},
+      {"name":"l","width":60,"height":40},
+      {"name":"m","width":60,"height":40},
+      {"name":"n","width":60,"height":40},
+      {"name":"o","width":60,"height":40},
+      {"name":"p","width":60,"height":40},
+      {"name":"q","width":60,"height":40},
+      {"name":"r","width":60,"height":40}
+    ],
+    "links":[
+      {"source":0, "target":8 }, 
+      {"source":1, "target":8}, 
+      {"source":2, "target":8}, 
+      {"source":3, "target":5}, 
+      {"source":3, "target":10}, 
+      {"source":3, "target":6}, 
+      {"source":4, "target":7 },
+      {"source":8, "target":9 },
+      {"source":8, "target":13 },
+      {"source":5, "target":14 },
+      {"source":6, "target":11 },
+      {"source":7, "target":11 },
+      {"source":9, "target":12 },
+      {"source":10, "target":15 },
+      {"source":11, "target":15 },
+      {"source":11, "target":16 },
+      {"source":12, "target":17 },
+      {"source":13, "target":17 },
+      {"source":14, "target":17 },
+      {"source":15, "target":17 },
+      {"source":16, "target":17 }
+
+    ],
+	"groups":[
+	  {"leaves":[0,1,2,3,4]},
+	  {"leaves":[5,6,7]},
+	  {"leaves":[8]},
+    {"leaves":[9,10,11]},
+    {"leaves":[12,13,14,15,16]},
+    {"leaves":[17]}
+	]
+}
