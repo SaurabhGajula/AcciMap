@@ -39,7 +39,7 @@
 <body>
     <!-- <a href="../index.html">cola.js home</a> -->
     <h1>Layout with hierarchical grouping</h1>
-    <script src="../extern/d3v4.js"></script>
+    <script src="../d3v4.js"></script>
     <script src="../cola.min.js"></script>
 <script>
     var width = 1960,
@@ -57,7 +57,7 @@
         .attr("width", width)
         .attr("height", height);
 
-    d3.json("smallgrouped_dev.json", function (error, graph) {
+    d3.json("../smallgrouped_dev.json", function (error, graph) {
 
         graph.nodes.forEach(function (v) {
             v.width = v.height = 95;
